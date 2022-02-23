@@ -45,6 +45,12 @@ public class InstitutoControllerAlumno {
         return "redirect:/instituto/alumnos/listar";
     }
 
+    @PostMapping("/inscribir")
+    public String inscribir(@ModelAttribute @Valid Alumno alumno, Model modelo) {
+        institutoService.inscribirse(alumno);
+        return "redirect:/instituto/alumnos/listar";
+    }
+
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable int id, Model model) {
         Optional<Alumno> alumno = institutoService.listarId(id);

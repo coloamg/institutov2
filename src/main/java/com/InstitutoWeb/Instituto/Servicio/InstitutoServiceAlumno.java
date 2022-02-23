@@ -23,7 +23,17 @@ public class InstitutoServiceAlumno {
     @Autowired
     InstitutoRepositoryMateria instituoRepositorioMat;   
     @Autowired
-    InstitutoRepositoryProfesor instituoRepositorioProf;  
+    InstitutoRepositoryProfesor instituoRepositorioProf;
+    
+    public boolean inscribirse(Alumno alumno){
+        if(alumno.getMaterias().size() != alumno.getProfesores().size()){
+            return false;
+        }
+        for(int i = 0; i < alumno.getMaterias().size();i++){
+            instituoRepositorio.inscribirMateria(alumno.getIDAlumno(), alumno.getMaterias().get(0).getId(), alumno.getProfesores().get(0).getIdProfesor());
+        }
+        return true;
+    }
     
     @TransactionScoped
     public Alumno save(Alumno alumno) {
