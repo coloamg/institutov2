@@ -24,15 +24,29 @@ public class InstitutoServiceAlumno {
     InstitutoRepositoryMateria instituoRepositorioMat;   
     @Autowired
     InstitutoRepositoryProfesor instituoRepositorioProf;
+
+    public boolean estaInscripto(Alumno alumno){
+        var datos_alumnos = listarId(alumno.getIDAlumno());
+        for (int i = 0; i < datos_alumnos.length; i++) {
+            if(datos_alumnos.getMaterias().get(i).getId()==alumno.getMaterias().get(0).getId()){
+                return true;
+            }
+        }
+        return false;
+    }
     
     public boolean inscribirse(Alumno alumno){
-        if(alumno.getMaterias().size() != alumno.getProfesores().size()){
-            return false;
+        if(!estaInscripto(alumno)){
+            if(alumno.getMaterias().size() != alumno.getProfesores().size()){
+                return false;
+            }
+            for(int i = 0; i < alumno.getMaterias().size();i++){
+                instituoRepositorio.inscribirMateria(alumno.getIDAlumno(), alumno.getMaterias().get(0).getId(), alumno.getProfesores().get(0).getIdProfesor());
+            }
+            return true;
         }
-        for(int i = 0; i < alumno.getMaterias().size();i++){
-            instituoRepositorio.inscribirMateria(alumno.getIDAlumno(), alumno.getMaterias().get(0).getId(), alumno.getProfesores().get(0).getIdProfesor());
-        }
-        return true;
+        return false;
+        
     }
     
     @TransactionScoped
